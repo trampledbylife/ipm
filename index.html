@@ -15,12 +15,14 @@
 
 <form >
     <label for="nip">Numer nip</label>
-    <input type="text" id="nip" name="nip" placeholder="999-999-99-99" title="Wprowadź poprawny numer nip" pattern="^\d{3}[- ]\d{3}[- ]\d{2}[- ]\d{2}$">
+    <input type="text" id="nip" name="nip" placeholder="999-999-99-99" title="Wprowadź poprawny numer nip" pattern="^\d{3}[-]\d{3}[-]\d{2}[-]\d{2}$">
     <input type="submit">
 </form>
 
 <form>
     <label for="id_number">Numer dowodu</label>
+    <input type="text" id="id_number" name="id_number" placeholder="ABC 888555" title="Wprowadź poprawny numer dowodu" pattern="[A-Z]{3} [0-9]{6}$">
+    <input type="submit">
 </form>
 
 <form>
