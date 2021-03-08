@@ -39,7 +39,7 @@
 
 <form>
     <label for="drive_path">Ścieżka litera dysku </label>
-    <input type="text" id="path1" name="path1" placeholder="C:\windows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Z]{1}\[a-z]\[a-z]$">
+    <input type="text" id="path1" name="path1" placeholder="C:\windows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Z]{1}:^\[a-z]^\[a-z]$">
     <input type="submit">
 </form>
 
@@ -57,6 +57,8 @@
 
 <form>
     <label for="phone">Numer telefonu</label>
+    <input type="text" id="phone" name="phone" placeholder="111-222-333" title="Wprowadź poprawny numer telefonu" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$">
+    <input type="submit">
 </form>
 
 </body>
