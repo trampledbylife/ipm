@@ -41,7 +41,7 @@
 
 <form>
     <label for="drive_path">Ścieżka litera dysku </label>
-    <input type="text" id="path1" name="path1" placeholder="C:\windows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Z]{1}:\\[\\\s|*\s]?.*">
+    <input type="text" id="path1" name="path1" placeholder="C:\windows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Za-z]:\\(win|winnt|windows|dos|msdos)\\?[a-z]">
     <input type="submit">
 </form>
 
@@ -53,7 +53,7 @@
 
 <form>
     <label for="file_path">Ścieżka do pliku w katalgou </label>
-    <input type="text" id="path3" name="path3" placeholder="/etc/passwd" title="Wprowadź poprawną ścieżkę z dysku" pattern="[/]{1}[A-Za-z0-9][/\s|*\s]?.*" >
+    <input type="text" id="path3" name="path3" placeholder="/etc/passwd" title="Wprowadź poprawną ścieżkę z dysku" pattern="^(/etc/).*" >
     <input type="submit">
 </form>
 
