@@ -1,0 +1,74 @@
+<html>
+
+<body>
+
+<form>
+    <label for="email">Email: </label>
+    <input type="email" id="email" name="email" pattern="[A-Za-z]{3}"  placeholder="wojtek@gmail.com" title="Wprowadź poprawny adres email">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="zip">Kod poczowy</label>
+    <input type="text" id="zip" name="zip" placeholder="97-226" title="Wprowadź poprawny kod pocztowy" pattern="^\s*?\d{2}(?:[-\s]\d{3})?\s*?$">
+    <input type="submit">
+</form>
+
+
+<form >
+    <label for="nip">Numer nip</label>
+    <input type="text" id="nip" name="nip" placeholder="999-999-99-99" title="Wprowadź poprawny numer nip" pattern="^\d{3}[-]\d{3}[-]\d{2}[-]\d{2}$">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="id_number">Numer dowodu</label>
+    <input type="text" id="id_number" name="id_number" placeholder="ABC 888555" title="Wprowadź poprawny numer dowodu" pattern="[A-Z]{3} [0-9]{6}$">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="ipv4">Adres ipv4</label>,
+    <input type="text" id="ipv4" name="ipv4" placeholder="10.255.255.255" title="Wprowadź poprawny numer ipv4" pattern="^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="www">Strona www</label>
+    <input type="url" id="url" name="url" placeholder="https://github.com/" title="Wprowadź poprawny adres strony">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="drive_path">Ścieżka litera dysku </label>
+    <input type="text" id="path1" name="path1" placeholder="C:\windows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Z]{1}:\\[\\\s|*\s]?.*">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="drive_path2">Ścieżka litera dysku (wielkie male litery) </label>
+    <input type="text" id="path2" name="path2" placeholder="C:\wiNDows\temp" title="Wprowadź poprawną ścieżkę z dysku" pattern="[A-Za-z]{1}:\\[A-Za-z0-9][\\\s|*\s]?.*">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="file_path">Ścieżka do pliku w katalgou </label>
+    <input type="text" id="path3" name="path3" placeholder="/etc/passwd" title="Wprowadź poprawną ścieżkę z dysku" pattern="[/]{1}[A-Za-z0-9][/\s|*\s]?.*" >
+    <input type="submit">
+</form>
+
+<form>
+    <label for="ipv6">Adres ipv6</label>
+    <input type="text" id="ipv6" name="ipv6" placeholder="0000:0000:0000:0000:0000:0000:0000:0000" title="Wprowadź poprawny adres ipv6" pattern="^[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}:[0-9a-fA-F]{4}$">
+    <input type="submit">
+</form>
+
+<form>
+    <label for="phone">Numer telefonu</label>
+    <input type="text" id="phone" name="phone" placeholder="111-222-333" title="Wprowadź poprawny numer telefonu" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$">
+    <input type="submit">
+</form>
+
+</body>
+
+</html>
