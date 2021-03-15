@@ -1,0 +1,12 @@
+input:placeholder-shown{
+    border: 1px solid;
+}
+
+input:valid
+{
+    border-color: green;
+}
+
+input:invalid {
+    border-color: red;
+  }
