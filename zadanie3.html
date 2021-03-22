@@ -12,6 +12,13 @@
                 background-color: #f0f0f0;
 
                }
+                button {
+                    position: absolute;
+                    margin-left: 85%;
+                    top: 150px;
+                    margin-top: 10px;
+                    display: block;
+                }
         </style>
 </head>
 
@@ -24,8 +31,15 @@
 
     <div id="container"></div>
 
+
+        <button id="generate">
+          Generuj klocek
+        </button>
+
+
+
     <script>
-      var width = window.innerWidth * 0.8;
+      var width = window.innerWidth;
       var height = window.innerHeight;
 
       var stage = new Konva.Stage({
@@ -34,21 +48,34 @@
         height: height,
       });
 
+
       var layer = new Konva.Layer();
       var offsetX = 0;
       var offsetY = 0;
       var colors = ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
+      var brickName = 0;
 
-      var brick = new Konva.Rect({
-            x: + 10,
-            y: + 500,
+      function getRandomInt(min, max) {
+            
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min;
+            }
+
+      function generateBrick(){
+        //brickName=+1;
+        var brick = new Konva.Rect({
+            x: + window.innerWidth * 0.85,
+            y: + 10,
             width: 100,
             height: 100,
-            fill: colors[1],
+            fill: colors[getRandomInt(0,5)],
             draggable: true,
-            name: colors[1],
+            //name: brickName.toString,
           });
-     layer.add(brick);
+        layer.add(brick);
+
+      }
 
       var platform = new Konva.Rect({
             x: + 0,
@@ -63,18 +90,23 @@
 
       stage.add(layer);
 
+
+
+      document.getElementById('generate').addEventListener(
+        'click',
+        function () {
+          generateBrick();
+          layer.draw();
+        },
+        false
+      );
+
+
     </script>
 
         </div>
         <div style="float:right;  width: 20%;background-color: coral;">
-        <h1>2</h1>
 
-        <button type="button">Generuj</button>
-
-
-        <button id="toTop">
-            GENERATE
-        </button>
         </div>
     </div>
 
