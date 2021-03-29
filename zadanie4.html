@@ -6,28 +6,38 @@
 
 <body>
     <div class="editable" contenteditable="true">
-        <ol>
+        <ol id="ordered">
             <li class="orderedList" id='0' draggable="true">Pozycja 1</li>
             <li class="orderedList" id='1' draggable="true">Pozycja 2</li>
             <li class="orderedList" id='2' draggable="true">Pozycja 3</li>
             <li class="orderedList" id='3' draggable="true">Pozycja 4</li>
+            <li class="orderedList" id='4' draggable="true">Pozycja 5</li>
         </ol>
     </div>
 
 <script>
-    let indexDrop;
-    let list;
-    let dragged;
+
+    let dropId;
+    let orderedList;
+    let selected;
     let id;
     let index;
 
-
   document.addEventListener("dragstart", ({target}) => {
-      dragged = target;
+
+      var ordered = document.getElementById('ordered');
+      var elemnets = ordered.getElementsByTagName('li');
+      var l = elemnets.length;
+      let j=1;
+      for(let newOrder of elemnets){
+        newOrder.id = j++;
+      }
+
+      selected = target;
       id = target.id;
-      list = target.parentNode.children;
-      for(let i = 0; i < list.length; i += 1) {
-      	if(list[i] === dragged){
+      orderedList = target.parentNode.children;
+      for(let i = 0; i < orderedList.length; i += 1) {
+      	if(orderedList[i] === selected){
           index = i;
         }
       }
@@ -39,17 +49,17 @@
 
   document.addEventListener("drop", ({target}) => {
    if(target.className == "orderedList" && target.id !== id) {
-       dragged.remove( dragged );
-      for(let i = 0; i < list.length; i += 1) {
-      	if(list[i] === target){
-          indexDrop = i;
+       selected.remove( selected );
+      for(let i = 0; i < orderedList.length; i += 1) {
+      	if(orderedList[i] === target){
+          dropId = i;
         }
       }
-      console.log(index, indexDrop);
-      if(index > indexDrop) {
-      	target.before( dragged );
+      console.log(index, dropId);
+      if(index > dropId) {
+      	target.before(selected);
       } else {
-       target.after( dragged );
+       target.after(selected);
       }
     }
   });
