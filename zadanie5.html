@@ -1,0 +1,119 @@
+<html>
+<body>
+
+<head>
+    <script>
+      window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+      window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"};
+      window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+
+    function init(){
+      var request = window.indexedDB.open("NewDatabase", 1);
+      request.onerror = function(event) {
+        alert("Can not opening database");
+      };
+      request.onsuccess = function(event) {
+        db = event.target.result;
+        db.onerror = function(event) {
+          alert("Database error: " + event.target.errorCode);
+        };
+        updatetable();
+      };
+
+      request.onupgradeneeded = function(event) {
+        var db = event.target.result;
+        var objectStore = db.createObjectStore("clients", {keyPath: "id", autoIncrement: true});
+        objectStore.createIndex("name", "name", {unique:false});
+        objectStore.createIndex("surname", "surname", {unique:false});
+        objectStore.createIndex("email", "email", {unique:false});
+        objectStore.createIndex("phone", "phone", {unique:false});
+        objectStore.transaction.oncomplete = function(event) {
+
+        };
+      };
+
+      document.getElementById('addNew').onsubmit = function(e) {
+
+        var data_name = document.getElementById('nameInput').value;
+        var data_surname = document.getElementById('surnameInput').value;
+        var data_email = document.getElementById('emailInput').value;
+        var data_phone = document.getElementById('phoneInput').value;
+
+        const new_data = {
+          name: data_name,
+          surname: data_surname,
+          email: data_email,
+          phone: data_phone
+        }
+
+        var transaction = db.transaction(["clients"], "readwrite");
+        transaction.oncomplete = function(event) {
+          console.log("all done with transaction");
+        };
+
+        transaction.onerror = function(event){
+          console.dir(event);
+        };
+        var clientsObjectStore = transaction.objectStore("clients");
+        var request = clientsObjectStore.add(new_data);
+        request.onsuccess = function(event){
+          console.log("added item");
+        };
+        updatetable();
+
+      }
+      function updatetable(){
+        document.getElementById("data-table-body").innerHTML = "";
+        var request = db.transaction("clients").objectStore("clients").openCursor();
+        request.onerror = function(event){
+          console.dir(event);
+        };
+        request.onsuccess = function(event){
+          cursor = event.target.result;
+          if(cursor) {
+            document.getElementById("data-table-body").innerHTML += "<tr><td>" + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
+              + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td></tr>";
+
+              cursor.continue();
+          }
+        };
+      }
+    }
+
+    </script>
+    </head>
+
+    <body onload="init()">
+
+    <div style="float:left; width: 20%; display: inline-table">
+        <form id="addNew">
+
+            <label>Imię</label>
+            <input style="display:block;" id="nameInput" placeholder="Wojciech" required>
+
+            <label>Nazwisko</label>
+            <input  style="display:block;"id="surnameInput" placeholder="Lesiak" required>
+
+            <label>Email</label>
+            <input style="display:block;" type="email" id="emailInput" placeholder="wojtek@gmail.com"required>
+
+            <label>Telefon</label>
+            <input style="display:block;" type="text" id="phone" name="phone" title="Format: 111-222-333" placeholder="111-222-333" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$" required>
+
+            <button type="submit" id="addButton">Dodaj</button>
+
+         </form>
+
+    </div>
+
+
+    <table id="data-table">
+        <thead>
+            <tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Email</th><th>Telefon</th></tr>
+        </thead>
+        <tbody id="data-table-body">
+        </tbody>
+    </table>
+
+    </body>
+    </html>
