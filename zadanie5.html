@@ -1,6 +1,3 @@
-<html>
-<body>
-
 <head>
     <script>
       window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -8,7 +5,7 @@
       window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
     function init(){
-      var request = window.indexedDB.open("NewDatabase", 1);
+      var request = window.indexedDB.open("NewDatabase2", 3);
       request.onerror = function(event) {
         alert("Can not opening database");
       };
@@ -32,7 +29,7 @@
         };
       };
 
-      document.getElementById('addNew').onsubmit = function(e) {
+      document.getElementById('addClientForm').onsubmit = function(e) {
 
         var data_name = document.getElementById('nameInput').value;
         var data_surname = document.getElementById('surnameInput').value;
@@ -50,30 +47,31 @@
         transaction.oncomplete = function(event) {
           console.log("all done with transaction");
         };
-
         transaction.onerror = function(event){
           console.dir(event);
         };
+
         var clientsObjectStore = transaction.objectStore("clients");
         var request = clientsObjectStore.add(new_data);
         request.onsuccess = function(event){
           console.log("added item");
         };
-        updatetable();
 
+        updatetable();
       }
+
       function updatetable(){
-        document.getElementById("data-table-body").innerHTML = "";
+        document.getElementById("clients-table-body").innerHTML = "";
         var request = db.transaction("clients").objectStore("clients").openCursor();
         request.onerror = function(event){
           console.dir(event);
         };
+
         request.onsuccess = function(event){
           cursor = event.target.result;
           if(cursor) {
-            document.getElementById("data-table-body").innerHTML += "<tr><td>" + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
+            document.getElementById("clients-table-body").innerHTML += "<tr><td>" + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
               + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td></tr>";
-
               cursor.continue();
           }
         };
@@ -85,35 +83,36 @@
 
     <body onload="init()">
 
-    <div style="float:left; width: 20%; display: inline-table">
-        <form id="addNew">
 
-            <label>Imię</label>
-            <input style="display:block;" id="nameInput" placeholder="Wojciech" required>
+        <div style="float:left; width: 20%; display: inline-table">
+          <form id="addClientForm">
 
-            <label>Nazwisko</label>
-            <input  style="display:block;"id="surnameInput" placeholder="Lesiak" required>
+                <label>Imię</label>
+                <input style="display:block;"  placeholder="Wojciech" id="nameInput" required>
 
-            <label>Email</label>
-            <input style="display:block;" type="email" id="emailInput" placeholder="wojtek@gmail.com"required>
+                <label>Nazwisko</label>
+                <input  style="display:block;"  placeholder="Lesiak" id="surnameInput" required>
 
-            <label>Telefon</label>
-            <input style="display:block;" type="text" id="phone" name="phone" title="Format: 111-222-333" placeholder="111-222-333" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$" required>
+                <label>Email</label>
+                <input style="display:block;" type="email" placeholder="wojtek.0569@gmail.com" id="emailInput" required>
 
-            <button type="submit" id="addButton">Dodaj</button>
+                <label>Telefon</label>
+                <input style="display:block;" type="phone" id="phoneInput" placeholder="111-222-333" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$" required>
 
-         </form>
+                <button type="submit" id="addButton">Dodaj</button>
 
-    </div>
+          </form>
+
+        </div>
 
 
-    <table id="data-table">
-        <thead>
-            <tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Email</th><th>Telefon</th></tr>
-        </thead>
-        <tbody id="data-table-body">
-        </tbody>
-    </table>
+        <table id="clients-table">
+            <thead>
+              <tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Email</th><th>Telefon</th></tr>
+            </thead>
+            <tbody id="clients-table-body">
+            </tbody>
+        </table>
 
     </body>
     </html>
