@@ -8,7 +8,7 @@
       window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
     function init(){
-      var request = window.indexedDB.open("Databse3", 3);
+      var request = window.indexedDB.open("Databse5", 1);
       request.onerror = function(event) {
         alert("Can not opening database");
       };
@@ -87,14 +87,24 @@
           console.dir(event);
         };
 
+
         request.onsuccess = function(event){
           cursor = event.target.result;
           if(cursor) {
-            document.getElementById("clients-table-body").innerHTML += "<tr><td>" + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
-              + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>" 
-              + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip +"</td></tr>";
-              cursor.continue();
+            document.getElementById("clients-table-body").innerHTML += "<tr id=\"row+"+cursor.key+"\"><td>"  + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
+              + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>"
+              + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip + "</td><td><button id=\"deleteButton\" value=\"" + cursor.key + "\">Usuń</button>"
+            + "</td></tr>";
+
+            document.getElementById('deleteButton').onclick = function(e){
+              var del_id = parseInt(document.getElementById('deleteButton').value);
+              var request = db.transaction(["clients"], "readwrite").objectStore("clients").delete(del_id);
+              document.getElementById("row"+del_id).remove();
+              updateTable();
+            }
+            cursor.continue();
           }
+
         };
       }
     }
@@ -106,6 +116,7 @@
 
 
         <div style="float:left; width: 20%; display: inline-table">
+
           <form id="addClientForm">
 
                 <label>Imię</label>
@@ -141,6 +152,14 @@
                 <button type="submit" id="addButton">Dodaj</button>
 
           </form>
+
+
+          <div>
+            <label>Szukaj</label>
+            <input id="search_input"/>
+            <button id="search_button">Szukaj</button>
+          </div>
+        </div>
 
         </div>
 
