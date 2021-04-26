@@ -1,0 +1,170 @@
+window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"}; 
+
+if (!window.indexedDB) {
+    window.alert("Can not opening database");
+}
+
+var request = window.indexedDB.open("Database5");
+var db;
+let clientsTable = document.getElementById("clients-table-body");
+
+request.onsuccess = function (event) {
+    db = request.result;
+    updateTable();
+}
+
+request.onupgradeneeded = function (event) {
+
+    var userInformations = request.result.createObjectStore("users", {
+        keyPath: "id",
+        autoIncrement: true,
+        unique: true
+    });
+
+    userInformations.createIndex("name", "name", {unique:false});
+    userInformations.createIndex("surname", "surname", {unique:false});
+    userInformations.createIndex("email", "email", {unique:false});
+    userInformations.createIndex("phone", "phone", {unique:false});
+    userInformations.createIndex("nip", "nip", {unique:false});
+    userInformations.createIndex("idNumber", "idNumber", {unique:false});
+    userInformations.createIndex("city", "city", {unique:false});
+    userInformations.createIndex("street", "street", {unique:false});
+    userInformations.createIndex("number", "number", {unique:false});
+    userInformations.createIndex("zip", "zip", {unique:false});
+
+};
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+
+function generate()
+{
+    var random_names = ["Wojciech", "Adam", "Jan", "Ala", "Katarzyna", "Magdalena"];
+    var random_surnames = ["Lesiak", "Nowak", "Krawczyk","Woźniak", "Domagała", "Sęk"]
+    var random_id = ["ABC", "DBF", "WPY", "XYZ"]
+    var random_cities = ["Warszawa", "Kraków", "Łódź", "Poznań", "Lublin"]
+    var random_street = ["Polna", "Zielona", "Wojskowa", "Malownicza", "Radwańska"]
+
+    var data_name = random_names[getRandomInt(0, random_names.length)]+getRandomInt(0,99);
+    var data_surname = random_surnames[getRandomInt(0, random_surnames.length)]+getRandomInt(0,99);
+    var data_email = data_name+"@gmail.com";
+    var data_phone = getRandomInt(100,999)+""+ getRandomInt(100,999)+""+getRandomInt(100,999);
+    var data_nip = getRandomInt(100,999)+"-"+ getRandomInt(100,999)+"-"+getRandomInt(10,99)+"-"+getRandomInt(10,99);
+    var data_idNumber = random_id[getRandomInt(0, random_id.length)]+" "+getRandomInt(100,999)+""+ getRandomInt(100,999);
+    var data_city = random_cities[getRandomInt(0, random_cities.length)];
+    var data_street = random_street[getRandomInt(0, random_street.length)];
+    var data_number = getRandomInt(1,99)
+    var data_zip = getRandomInt(10,99)+"-"+getRandomInt(100,999);
+
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+
+    var request = objectStore.add({
+        name: data_name,
+        surname: data_surname,
+        email: data_email,
+        phone: data_phone,
+        nip: data_nip,
+        idNumber: data_idNumber,
+        city: data_city,
+        street: data_street,
+        number: data_number,
+        zip: data_zip
+    });
+
+    updateTable();
+}
+
+function add() {
+    var data_name = document.getElementById('nameInput').value;
+    var data_surname = document.getElementById('surnameInput').value;
+    var data_email = document.getElementById('emailInput').value;
+    var data_phone = document.getElementById('phoneInput').value;
+    var data_nip = document.getElementById('nip').value;
+    var data_idNumber = document.getElementById('idNumber').value;
+    var data_city = document.getElementById('city').value;
+    var data_street = document.getElementById('street').value;
+    var data_number = document.getElementById('number').value;
+    var data_zip = document.getElementById('zip').value;
+
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.add({
+        name: data_name,
+        surname: data_surname,
+        email: data_email,
+        phone: data_phone,
+        nip: data_nip,
+        idNumber: data_idNumber,
+        city: data_city,
+        street: data_street,
+        number: data_number,
+        zip: data_zip
+    });
+
+    updateTable();
+}
+
+function updateTable() {
+    var clientsTable = document.getElementById("clients-table-body");
+    var objectStore = db.transaction(["users"]).objectStore("users");
+    clientsTable.innerHTML = "";
+    objectStore.openCursor().onsuccess = function (event) {
+        var cursor = event.target.result;
+        if (cursor) {
+            clientsTable.innerHTML +=
+                "<tr><td>"  + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
+                + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>"
+                + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip + "</td>"
+                + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Usuń</button></td>"
+                + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
+            cursor.continue();
+        }
+    }
+}
+
+function deleteButton(user_ID) {
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.delete(user_ID);
+    request.onsuccess = function (event) {
+        updateTable();
+    };
+}
+
+function search() {
+    var value = document.getElementById("search").value;
+    if (value != "") {
+        var clientsTable = document.getElementById("clients-table-body");
+        clientsTable.innerHTML = "";
+
+        var objectStore = db.transaction(["users"]).objectStore("users");
+        objectStore.openCursor().onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                if (
+                    cursor.value.name === value || cursor.value.surname === value ||  cursor.value.email === value ||
+                    cursor.value.phone  === value || cursor.value.nip === value || cursor.value.idNumber === value ||
+                    cursor.value.city === value || cursor.value.street === value ||  cursor.value.number === value ||
+                    cursor.value.zip === value
+                ){
+                    clientsTable.innerHTML +=
+                    "<tr><td>"  + cursor.key + "</td><td>" + cursor.value.name + "</td><td>"
+                    + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>"
+                    + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip + "</td>"
+                    + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Usuń</button></td>"
+                    + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
+                    cursor.continue();
+                }
+                else{
+                    cursor.continue();
+                }
+            }
+        }
+    }
+}
