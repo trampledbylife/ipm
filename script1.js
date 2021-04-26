@@ -1,5 +1,5 @@
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"}; 
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"};
 
 if (!window.indexedDB) {
     window.alert("Can not opening database");
@@ -110,6 +110,41 @@ function add() {
     updateTable();
 }
 
+
+function deleteButton(user_ID) {
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var request = objectStore.delete(user_ID);
+    request.onsuccess = function (event) {
+        updateTable();
+    };
+}
+
+function editButton(user_ID) {
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+
+    var data = objectStore.get(user_ID);
+
+    data.onsuccess = function (event) {
+    document.getElementById('nameInput').value = data.result.name;
+    document.getElementById('surnameInput').value = data.result.surname;
+    document.getElementById('emailInput').value = data.result.email;
+    document.getElementById('phoneInput').value = data.result.phone;
+    document.getElementById('nip').value = data.result.nip;
+    document.getElementById('idNumber').value = data.result.idNumber;
+    document.getElementById('city').value = data.result.city;
+    document.getElementById('street').value = data.result.street;
+    document.getElementById('number').value = data.result.number;
+    document.getElementById('zip').value = data.result.zip;
+    }
+
+    var request = objectStore.delete(user_ID);
+    request.onsuccess = function (event) {
+        updateTable();
+    };
+}
+
 function updateTable() {
     var clientsTable = document.getElementById("clients-table-body");
     var objectStore = db.transaction(["users"]).objectStore("users");
@@ -122,19 +157,10 @@ function updateTable() {
                 + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>"
                 + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip + "</td>"
                 + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Usuń</button></td>"
-                + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
+                + "<td><button type=\"button\" onClick=\"editButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
             cursor.continue();
         }
     }
-}
-
-function deleteButton(user_ID) {
-    var transaction = db.transaction(["users"], "readwrite");
-    var objectStore = transaction.objectStore("users");
-    var request = objectStore.delete(user_ID);
-    request.onsuccess = function (event) {
-        updateTable();
-    };
 }
 
 function search() {
@@ -158,7 +184,7 @@ function search() {
                     + cursor.value.surname + "</td><td>" + cursor.value.email + "</td><td>" + cursor.value.phone + "</td><td>" + cursor.value.nip + "</td><td>" + cursor.value.idNumber + "</td><td>"
                     + cursor.value.city + "</td><td>" + cursor.value.street + "</td><td>" + cursor.value.number +"</td><td>" + cursor.value.zip + "</td>"
                     + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Usuń</button></td>"
-                    + "<td><button type=\"button\" onClick=\"deleteButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
+                    + "<td><button type=\"button\" onClick=\"editButton(" + cursor.value.id + ")\">Edytuj</button></td></tr>"
                     cursor.continue();
                 }
                 else{

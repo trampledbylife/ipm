@@ -19,7 +19,7 @@
         <input style="display:block;" type="email" placeholder="wojtek.0569@gmail.com" id="emailInput" required>
 
         <label>Telefon</label>
-        <input style="display:block;" type="phone" id="phoneInput" placeholder="111-222-333" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}$" required>
+        <input style="display:block;" type="phone" id="phoneInput" placeholder="111222333" pattern="[0-9]{9}$" required>
 
         <label>Numer nip</label>
         <input style="display:block;" type="text" id="nip" placeholder="999-999-99-99" pattern="^\d{3}[-]\d{3}[-]\d{2}[-]\d{2}$"  required>
@@ -40,7 +40,7 @@
         <input style="display:block;" type="text" id="zip" name="zip" placeholder="97-226" pattern="^\s*?\d{2}(?:[-\s]\d{3})?\s*?$"  required>
     </form>
     <br>
-    <button type="button" id="add" onclick="add();">Dodaj</button>
+    <button type="submit" id="add" onclick="add();">Dodaj</button>
     <br><br>
     <button type="button" id="add" onclick="generate();">Generuj dane</button>
 
