@@ -15,7 +15,6 @@ request.onsuccess = function (event) {
 }
 
 
-//=========================
 window.onload = () => {
     w = new Worker('demo_workers.js');
     const button = document.getElementById('startWorker');
@@ -34,31 +33,39 @@ window.onload = () => {
 
         var jsonobject = [];
         var item = {};
-        item["nameInput"] = data_name
-        item["surnameInput"] = data_surname
-        item["emailInput"] = data_email
-        item["phoneInput"] = data_phone
-        item["nip"] = data_nip
-        item["idNumber"] = data_idNumber
-        item["city"] = data_city
-        item["street"] = data_street
-        item["number"] = data_number
-        item["zip"] = data_zip
+        item["nameInput"] = data_name;
+        item["surnameInput"] = data_surname;
+        item["emailInput"] = data_email;
+        item["phoneInput"] = data_phone;
+        item["nip"] = data_nip;
+        item["idNumber"] = data_idNumber;
+        item["city"] = data_city;
+        item["street"] = data_street;
+        item["number"] = data_number;
+        item["zip"] = data_zip;
         jsonobject.push(item);
 
         w.postMessage(JSON.stringify(jsonobject))
 
-        w.onmessage = function(e) {console.log(e.data);};
+        w.onmessage = function(e) {console.log(e.data);
+
+            document.getElementById('nameInput').value = e.data[0]["nameInput"];
+            document.getElementById('surnameInput').value = e.data[0]["surnameInput"];
+            document.getElementById('emailInput').value = e.data[0]["emailInput"];
+            document.getElementById('phoneInput').value = e.data[0]["phoneInput"];
+            document.getElementById('nip').value = e.data[0]["nip"];
+            document.getElementById('idNumber').value = e.data[0]["idNumber"];
+            document.getElementById('city').value = e.data[0]["city"];
+            document.getElementById('street').value = e.data[0]["street"];
+            document.getElementById('number').value = e.data[0]["number"];
+            document.getElementById('zip').value = e.data[0]["zip"];
+        };
     });
 
     //w.onmessage = function(event) {document.getElementById("result").innerHTML = event.data;};
 
 }
 
-
-
-
-//==============================
 
 request.onupgradeneeded = function (event) {
 
