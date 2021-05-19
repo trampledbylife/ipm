@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script1.js"></script>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+
+    <div style="float:left; width: 15%; display: inline-table">
+    <form>
+        <label>Imię</label>
+        <input style="display:block;"  placeholder="Wojciech" id="nameInput" required>
+
+        <label>Nazwisko</label>
+        <input  style="display:block;"  placeholder="Lesiak" id="surnameInput" required>
+
+        <label>Email</label>
+        <input style="display:block;" type="email" placeholder="wojtek.0569@gmail.com" id="emailInput" required>
+
+        <label>Telefon</label>
+        <input style="display:block;" type="phone" id="phoneInput" placeholder="111222333" pattern="[0-9]{9}$" required>
+
+        <label>Numer nip</label>
+        <input style="display:block;" type="text" id="nip" placeholder="999-999-99-99" pattern="^\d{3}[-]\d{3}[-]\d{2}[-]\d{2}$"  required>
+
+        <label>Numer dowodu</label>
+        <input style="display:block;" type="text" id="idNumber" name="idNumber" placeholder="ABC 888555" pattern="[A-Z]{3} [0-9]{6}$"  required>
+
+        <label>Miasto</label>
+        <input style="display:block;"  placeholder="Łódź" id="city" required>
+
+        <label>Ulica</label>
+        <input style="display:block;"  placeholder="Radwańska" id="street" required>
+
+        <label>Numer budynku</label>
+        <input style="display:block;" placeholder="7A" id="number" required>
+
+        <label for="zip">Kod poczowy</label>
+        <input style="display:block;" type="text" id="zip" name="zip" placeholder="97-226" pattern="^\s*?\d{2}(?:[-\s]\d{3})?\s*?$"  required>
+
+        <label>Zdjęcie URL</label>
+        <input style="display:block;" type="url" placeholder="http://photo" id="photo" required>
+    </form>
+    <br>
+    <div style="max-width: 100; max-height: 100;">
+    <img id="readyPhoto2" src="">
+    </div>  
+    <br>
+    <button type="submit" id="add" onclick="addButton();">Dodaj</button>
+    <br><br>
+    <button type="button" id="photoWorker" >Przekształć zdjęcie</button>
+    <br><br>
+    <button type="button" id="startWorker" >Odwróć znaki</button>
+    <br><br>
+    <button type="button" id="add" onclick="generateButton();">Generuj dane</button>
+
+    <br><br>
+    <label >Wyszukaj</label>
+    <input style="display:block;" type="text" id="search">
+    <button type="button" onclick="searchButton()">Szukaj</button>
+
+    
+    <br>
+    <br>
+
+</div>
+
+<div style="float:left; right: 85%; display: inline-table">
+    <br>
+
+    <div>
+    <table>
+        <thead>
+        <tr>
+            <tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Email</th><th>Telefon</th><th>Nip</th><th>Numer dowodu</th><th>Miasto</th><th>Ulica</th><th>Nr budynku</th><th>Kod pocztowy</th></tr>
+        </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+
+
+<div style="max-width: 100; max-height: 100;">
+<canvas id="canvasPhoto" width="100" height="100"></canvas>
+</div>
+
+
+<div style="position: relative; width: 500px;  height: 300px;">
+    <img style="position: absolute; width: 100%; height: 100%;" id="readyPhoto" src="https://atelierlks.com/wp-content/uploads/bfi_thumb/dummy-transparent-oqheqbvzqctqy04hpl79jlgn11hsk71yltucckq0a8.png">
+    <div id="filtr" style="position: absolute; width: 100%; height: 100%;" > </div>
+</div>
+</div>
+</body>
+</html>
