@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="script1.js"></script>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+
+    <div style="float:left; width: 20%; display: inline-table">
+    <form id="all-forms">
+        <label>Imię</label>
+        <input style="display:block;"  placeholder="Wojciech" id="nameInput" required>
+
+        <label>Nazwisko</label>
+        <input  style="display:block;"  placeholder="Lesiak" id="surnameInput" required>
+
+        <label>Email</label>
+        <input style="display:block;" type="email" placeholder="wojtek.0569@gmail.com" id="emailInput" required>
+
+        <label>Telefon</label>
+        <input style="display:block;" type="phone" id="phoneInput" placeholder="111222333" pattern="[0-9]{9}$" required>
+
+        <label>Numer nip</label>
+        <input style="display:block;" type="text" id="nip" placeholder="999-999-99-99" pattern="^\d{3}[-]\d{3}[-]\d{2}[-]\d{2}$"  required>
+
+        <label>Numer dowodu</label>
+        <input style="display:block;" type="text" id="idNumber" name="idNumber" placeholder="ABC 888555" pattern="[A-Z]{3} [0-9]{6}$"  required>
+
+        <label>Miasto</label>
+        <input style="display:block;"  placeholder="Łódź" id="city" required>
+
+        <label>Ulica</label>
+        <input style="display:block;"  placeholder="Radwańska" id="street" required>
+
+        <label>Numer budynku</label>
+        <input style="display:block;" placeholder="7A" id="number" required>
+
+        <label for="zip">Kod poczowy</label>
+        <input style="display:block;" type="text" id="zip" name="zip" placeholder="97-226" pattern="^\s*?\d{2}(?:[-\s]\d{3})?\s*?$"  required>
+    </form>
+    <br>
+    <button type="submit" id="addButton" onclick="add();">Dodaj</button>
+    <br><br>
+    <button type="button" id="add" onclick="generateValuesInForms();">Generuj dane</button>
+
+    <br><br>
+    <label >Wyszukaj</label>
+    <input oninput="searchInDatabase(this)" style="display:block;" type="text" id="searchInput">
+    <button type="button" onclick="search()">Szukaj</button>
+
+
+
+
+</div>
+
+
+<div>
+    <table>
+        <thead>
+        <tr>
+            <tr><th>ID</th><th>Imię</th><th>Nazwisko</th><th>Email</th><th>Telefon</th><th>Nip</th><th>Numer dowodu</th><th>Miasto</th><th>Ulica</th><th>Nr budynku</th><th>Kod pocztowy</th></tr>
+        </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+</body>
+</html>
