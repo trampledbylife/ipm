@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body>
+
+<script>
+window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction || {READ_WRITE: "readwrite"};
+
+if (!window.indexedDB) {
+    window.alert("Can not opening database");
+}
+
+var request = window.indexedDB.open("Database5");
+var db;
+request.onsuccess = function (event) {
+    db = request.result;
+    console.log("OK");
+}
+request.onerror = function (event){
+    console.log("error");
+}
+
+function getParams(param){
+    var url = window.location.search.substring(1);
+    var splitParm = url.split('&');
+
+    for(var i = 0; i<splitParm.length; i++)
+    {
+        var name = splitParm[i].split('=');
+        if(name[0]==param){
+            console.log(name[1]);
+            return name[1];
+        }
+    }
+}
+
+
+function getClientId(user_ID) {
+    console.log("wybrano");
+    var transaction = db.transaction(["users"], "readwrite");
+    var objectStore = transaction.objectStore("users");
+    var data = objectStore.get(user_ID);
+
+    data.onsuccess = function (event) {
+
+
+        document.getElementById("name").innerHTML = "imie i nazwisko: " + data.result.name + " " + data.result.surname;
+        document.getElementById("email").innerHTML = "email: " +data.result.email;
+        document.getElementById("phone").innerHTML = "telefon: "+ data.result.phone;
+        document.getElementById("nip").innerHTML = "nip: "+ data.result.nip;
+        document.getElementById("city").innerHTML = data.result.city + " "+ data.result.zip;
+        document.getElementById("street").innerHTML = data.result.street + " " + data.result.number;
+
+
+    }
+}
+
+
+var products = [ { id : 1 , nazwa : "Monitor Samsung 27 cale" , cena: 1200.00},
+                     { id : 2 , nazwa : "Telewizor Sony 55 cali" , cena: 3499.99},
+                     { id : 3 , nazwa : "iPhone 12 Pro 128GB" , cena: 5299.99},
+                     { id : 4 , nazwa : "Konsola Sony Play Station 5 1TB" , cena: 3299.99},
+                    ];
+
+
+window.onload = () => {
+    getClientId(parseInt(getParams("client")));
+
+    product_id = parseInt(getParams("product"));
+
+    found = products.find((i) => i.id == product_id);
+
+    document.getElementById("product_data").innerHTML = "Nazwa produktu: " + found['nazwa'] + " Cena: "+ found['cena'] +"PLN";
+
+}
+
+
+</script>
+<div>
+    <h1>FAKTURA</h1>
+    <br><br>
+    <h3>Dane klienta: </h3>
+    <p id="name"></p>
+    <p id="email"></p>
+    <p id="phone"></p>
+    <p id="nip"></p>
+    <p>Adres:</p>
+    <p id="city"></p>
+    <p id="street"></p>
+
+    <br><br>
+    <p>Zakupiony pordukt:</p>
+    <p id="product_data"></p>
+
+</div>
+</body>
+</html>
