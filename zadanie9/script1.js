@@ -39,7 +39,7 @@ function  invoice(){
     {
         document.getElementById("error_message").innerHTML = "Aby wsytawić faturę nalezy wybrać porodukt i klienta z bazy";
     }else{
-        window.open("invoice.html/?product="+selected+"&client="+current_client)
+        window.open("invoice.html?product="+selected+"&client="+current_client)
     }
   }
 
